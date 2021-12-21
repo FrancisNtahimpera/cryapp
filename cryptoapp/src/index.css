@@ -5,9 +5,26 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+ 
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.news-feed{
+  background-color: red;
+}
+
+.currency-converter{ 
+  background-color: rgb(98, 0, 255);
+}
+.app{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.exchange-rate{
+  background-color: rgb(58, 218, 18);
 }

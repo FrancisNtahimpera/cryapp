@@ -1,11 +1,18 @@
 
+import NewsFeed  from "./components/NewsFeed"
+import CurrencyConverter from "./components/CUrrencyConverter"
 
-function App() {
+
+const App = () => {
   return (
     <div className="">
-      Si tu lis ça fonctionne enfin 
+      <div className="app">
+          <NewsFeed/>
+          <CurrencyConverter/>
+      </div>
     </div>
   )
 }
 export default App
+
 
