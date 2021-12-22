@@ -1,37 +1,48 @@
-import { useState } from 'react';
+import { useState } from "react";
 import ExchangeRate from "./ExchangeRate";
-import axios from 'axios';
+import axios from "axios";
 
 const CurrencyConverter = () => {
-  const currencies = ["BTC", "ETH", "USD", "XRP", "LTC", "ADA"];
+  const currencies = ["BTC", "ETH" , "BIF" , "EUR" , "USD", "XRP", "LTC", "ADA" , "BNB","CAKE", "COMP","DOGE","DOT","EGLD"];
   const [choosenPrimaryCurrency, setChoosenPrimaryCurrency] = useState("BTC");
-  const [choosenSecondaryCurrency, setchoosenSecondaryCurrency] =useState("BTC");
+  const [choosenSecondaryCurrency, setchoosenSecondaryCurrency] = useState("BTC");
   const [amount, setAmount] = useState(1);
   const [exchangeRate, setExchangeRate] = useState(0);
-   
-  //console.log(amount);
-  
+  const [result, setResult] = useState(0);
+
+  console.log("montant demander "+amount);
+
   const convert = () => {
-     
-
     const options = {
-        method: 'GET',
-        url: 'https://alpha-vantage.p.rapidapi.com/query',
-        params: {to_currency: choosenPrimaryCurrency, function: 'CURRENCY_EXCHANGE_RATE', from_currency: choosenSecondaryCurrency},
-        headers: {
-          'x-rapidapi-host': 'alpha-vantage.p.rapidapi.com',
-          'x-rapidapi-key': '2d927652d4msh0e4d92671477f29p190d09jsn7573cb1a4d74'
-        }
-      };
+      method: "GET",
+      url: "https://alpha-vantage.p.rapidapi.com/query",
+      params: {
+        to_currency: choosenSecondaryCurrency,
+        function: "CURRENCY_EXCHANGE_RATE",
+        from_currency: choosenPrimaryCurrency
+      },
+      headers: {
+        "x-rapidapi-host": "alpha-vantage.p.rapidapi.com",
+        "x-rapidapi-key": "03d336ba4bmsh1027175a3e143ddp1cb70ejsna307e70c5cb7",
+      }
+    };
 
-    axios.request(options).then((response) => {
-        console.log(response.data['Realtime Currency Exchange Rate']['5. Exchange Rate'])
-        setExchangeRate(response.data['Realtime Currency Exchange Rate']['5. Exchange Rate'])
+    axios
+      .request(options)
+      .then((response) => {
+        console.log(
+           response.data["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+        );
+        setExchangeRate(
+          response.data["Realtime Currency Exchange Rate"]["5. Exchange Rate"]
+        );
+        setResult(
+          response.data["Realtime Currency Exchange Rate"]["5. Exchange Rate"] * amount)
       }).catch((error) => {
         console.error(error)
       })
-  } 
-  console.log(exchangeRate);
+  };
+  console.log('taux de change '+ exchangeRate);
   return (
     <div className="currency-converter">
       <h2>CurrencyConverter</h2>
@@ -64,7 +75,12 @@ const CurrencyConverter = () => {
             <tr>
               <td>Secondary Currency </td>
               <td>
-                <input type="number" name="Currency-amount-1" value=""></input>
+                <input
+                  type="number"
+                  name="Currency-amount-2"
+                  value={result}
+                  disabled={true}
+                />
               </td>
               <td>
                 <select
@@ -81,11 +97,18 @@ const CurrencyConverter = () => {
             </tr>
           </tbody>
         </table>
-        <button id="convert-button" onClick={convert}>CONVERT</button>
+        <button id="convert-button" onClick={convert}>
+          CONVERT
+        </button>
 
-        <ExchangeRate />
+      
+      </div>
+           
+           <div className="exchange-rate">
+        <h3>Exchange RAte</h3>
+        <h4>{"voici le taux de change  " + exchangeRate}</h4>
       </div>
     </div>
-  );
-};
+  )
+}
 export default CurrencyConverter;
